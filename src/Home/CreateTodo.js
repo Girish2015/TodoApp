@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+  Alert,
   Image,
   Pressable,
   StyleSheet,
@@ -38,6 +39,24 @@ export default class CreateTodo extends React.Component {
     const {editTodo} = this.props.route.params;
 
     editTodo(todo.id, title, details);
+    this.props.navigation.goBack();
+  };
+
+  deleteTouch = () => {
+    Alert.alert('Sure you want to delete this?', 'This cannot be undone', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {text: 'OK', onPress: this.deleteTodo},
+    ]);
+  };
+
+  deleteTodo = () => {
+    const {deleteTodo} = this.props.route.params;
+    const {todo} = this.state;
+
+    deleteTodo(todo.id);
     this.props.navigation.goBack();
   };
 
@@ -81,7 +100,12 @@ export default class CreateTodo extends React.Component {
               />
             </Pressable>
             {this.state.editMode && (
-              <Image source={images.delete} style={styles.delete} />
+              <Pressable
+                hitSlop={10}
+                onPress={this.deleteTouch}
+                style={styles.deleteContainer}>
+                <Image source={images.delete} style={styles.delete} />
+              </Pressable>
             )}
           </View>
         </View>
@@ -139,11 +163,13 @@ const styles = StyleSheet.create({
     height: 16,
     tintColor: colors.lightGray,
   },
+  deleteContainer: {
+    marginLeft: 30,
+  },
   delete: {
     width: 20,
     height: 20,
     tintColor: colors.lightGray,
-    marginLeft: 30,
   },
   headerRightContainer: {
     flexDirection: 'row',

@@ -1,9 +1,13 @@
-import _ from 'lodash';
 import moment from 'moment';
 import * as React from 'react';
 import {View} from 'react-native';
 import {connect} from 'react-redux';
-import {addNewTodo, toggleTodoStatus, editTodo} from '../Redux/appState';
+import {
+  addNewTodo,
+  deleteTodo,
+  editTodo,
+  toggleTodoStatus,
+} from '../Redux/appState';
 import TaskList from './TaskList';
 
 class Home extends React.Component {
@@ -17,6 +21,7 @@ class Home extends React.Component {
     this.props.navigation.navigate('CreateTodo', {
       todo,
       editTodo: this.editTodo,
+      deleteTodo: this.deleteTodo,
     });
   };
 
@@ -26,6 +31,10 @@ class Home extends React.Component {
 
   editTodo = (id, title, details) => {
     this.props.editTodo(id, title, details);
+  };
+
+  deleteTodo = (id) => {
+    this.props.deleteTodo(id);
   };
 
   addNewTodo = (title, details) => {
@@ -64,4 +73,5 @@ export default connect(mapStateToProps, {
   addNewTodo,
   toggleTodoStatus,
   editTodo,
+  deleteTodo,
 })(Home);
