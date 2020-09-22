@@ -29,6 +29,15 @@ export default class TaskList extends React.Component {
       <>
         <View style={styles.headingContainer}>
           <Text style={styles.heading}>{list.title}</Text>
+          <View style={styles.iconContainer}>
+            <Pressable onPress={this.props.createTodo}>
+              <Image source={images.plus} style={styles.plusIcon} />
+            </Pressable>
+
+            <Pressable onPress={this.props.createTodo}>
+              <Image source={images.search} style={styles.searchIcon} />
+            </Pressable>
+          </View>
         </View>
 
         {/* Active todo */}
@@ -78,8 +87,12 @@ export default class TaskList extends React.Component {
 const styles = StyleSheet.create({
   headingContainer: {
     marginLeft: 60,
+    marginRight: 40,
     marginTop: 40,
     marginBottom: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   heading: {
     fontSize: 30,
@@ -107,5 +120,21 @@ const styles = StyleSheet.create({
     height: 17,
     tintColor: colors.lightGray,
     marginBottom: 5,
+  },
+  plusIcon: {
+    width: 20,
+    height: 20,
+    tintColor: '#000',
+  },
+  searchIcon: {
+    width: 20,
+    height: 20,
+    tintColor: '#000',
+    marginLeft: 30,
+  },
+  iconContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

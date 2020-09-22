@@ -1,25 +1,33 @@
+import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
-import { View, Text } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import Home from '../Home'
+import Home from '../Home';
+import CreateTodo from '../Home/CreateTodo';
 
 const Stack = createStackNavigator();
 
 export default function RootStackNavigator() {
   return (
-    <Stack.Navigator initialRouteName="Home" screenOptions={{
-      cardStyle: {
-        backgroundColor: '#fff'
-      }
-    }}>
+    <Stack.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        cardStyle: {
+          backgroundColor: '#fff',
+        },
+      }}>
       <Stack.Screen
         name="Home"
         component={Home}
         options={{
-          headerShown: false
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="CreateTodo"
+        component={CreateTodo}
+        options={{
+          headerShown: false,
         }}
       />
     </Stack.Navigator>
-  )
+  );
 }
