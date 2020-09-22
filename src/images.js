@@ -10,4 +10,5 @@ export default images = {
   search: require(`${basePath}/search.png`),
   androidBack: require(`${basePath}/android_back.png`),
   delete: require(`${basePath}/delete.png`),
+  close: require(`${basePath}/close.png`),
 };

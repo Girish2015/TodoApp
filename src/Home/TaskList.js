@@ -6,6 +6,7 @@ import {
   Text,
   View,
   ScrollView,
+  TextInput,
 } from 'react-native';
 import colors from '../colors';
 import fonts from '../fonts';
@@ -15,6 +16,8 @@ import Todo from './Todo';
 export default class TaskList extends React.Component {
   state = {
     completedSectionExpanded: false,
+    searchMode: false,
+    searchText: '',
   };
 
   toggleCompletedSection = () => {
@@ -23,29 +26,79 @@ export default class TaskList extends React.Component {
     });
   };
 
+  toggleSearchMode = () => {
+    this.setState({searchMode: !this.state.searchMode, searchText: ''});
+  };
+
+  searchTextChange = (searchText) => {
+    this.setState({searchText: searchText.toLowerCase()});
+  };
+
+  todoSearchMatch = (todo) => {
+    if (!this.state.searchMode) return true;
+    if (todo.title && todo.title.toLowerCase().includes(this.state.searchText))
+      return true;
+    if (
+      todo.details &&
+      todo.details.toLowerCase().includes(this.state.searchText)
+    )
+      return true;
+
+    return false;
+  };
+
+  renderHeader = () => {
+    if (this.state.searchMode)
+      return (
+        <View style={styles.headingContainer}>
+          <TextInput
+            placeholder={'Search Todos'}
+            onChangeText={this.searchTextChange}
+            style={styles.searchInput}
+            autoFocus={true}
+          />
+          <View style={styles.closeIconContainer}>
+            <Pressable hitSlop={10} onPress={this.toggleSearchMode}>
+              <Image source={images.close} style={styles.closeIcon} />
+            </Pressable>
+          </View>
+        </View>
+      );
+
+    return (
+      <View style={styles.headingContainer}>
+        <Text style={styles.heading}>{this.props.list.title}</Text>
+        <View style={styles.iconContainer}>
+          <Pressable hitSlop={10} onPress={this.props.navigateCreateScreen}>
+            <Image source={images.plus} style={styles.plusIcon} />
+          </Pressable>
+
+          <View style={styles.searchIconContainer}>
+            <Pressable hitSlop={10} onPress={this.toggleSearchMode}>
+              <Image source={images.search} style={styles.searchIcon} />
+            </Pressable>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
   render() {
     const list = this.props.list;
     const activeTodos = [];
     const completedTodos = [];
     list.todos.forEach((todo) => {
-      if (todo.completed) completedTodos.push(todo);
-      else activeTodos.push(todo);
+      // Apply the search condition
+      if (this.todoSearchMatch(todo))
+        if (todo.completed)
+          // Split the data into active and completed arrays
+          completedTodos.push(todo);
+        else activeTodos.push(todo);
     });
 
     return (
-      <ScrollView>
-        <View style={styles.headingContainer}>
-          <Text style={styles.heading}>{list.title}</Text>
-          <View style={styles.iconContainer}>
-            <Pressable hitSlop={10} onPress={this.props.navigateCreateScreen}>
-              <Image source={images.plus} style={styles.plusIcon} />
-            </Pressable>
-
-            <Pressable hitSlop={10} onPress={this.props.navigateCreateScreen}>
-              <Image source={images.search} style={styles.searchIcon} />
-            </Pressable>
-          </View>
-        </View>
+      <ScrollView keyboardShouldPersistTaps="handled">
+        {this.renderHeader()}
 
         {/* Active todo */}
         {activeTodos.map((activeTodo) => (
@@ -138,15 +191,32 @@ const styles = StyleSheet.create({
     height: 20,
     tintColor: '#000',
   },
+  searchIconContainer: {
+    marginLeft: 30,
+  },
   searchIcon: {
     width: 20,
     height: 20,
     tintColor: '#000',
-    marginLeft: 30,
   },
   iconContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  closeIconContainer: {
+    width: '20%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  closeIcon: {
+    width: 18,
+    height: 18,
+    tintColor: colors.lightGray,
+  },
+  searchInput: {
+    fontSize: 18,
+    fontFamily: fonts.OpenSansRegular,
+    width: '80%',
   },
 });
