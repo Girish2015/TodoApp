@@ -50,37 +50,40 @@ export default class TaskList extends React.Component {
           />
         ))}
 
-        <View style={styles.seperator} />
+        {/* Completed todo, show only when there is more than one completed todo */}
+        {completedTodos.length != 0 && (
+          <>
+            <View style={styles.seperator} />
+            <Pressable
+              android_ripple={{color: colors.seperator}}
+              style={styles.completedTextContainer}
+              onPress={this.toggleCompletedSection}>
+              <Text style={styles.completedText}>
+                Completed ({completedTodos.length})
+              </Text>
+              <View>
+                <Image
+                  source={
+                    this.state.completedSectionExpanded
+                      ? images.arrowUp
+                      : images.arrowDown
+                  }
+                  style={styles.arrow}
+                />
+              </View>
+            </Pressable>
 
-        <Pressable
-          android_ripple={{color: colors.seperator}}
-          style={styles.completedTextContainer}
-          onPress={this.toggleCompletedSection}>
-          <Text style={styles.completedText}>
-            Completed ({completedTodos.length})
-          </Text>
-          <View>
-            <Image
-              source={
-                this.state.completedSectionExpanded
-                  ? images.arrowUp
-                  : images.arrowDown
-              }
-              style={styles.arrow}
-            />
-          </View>
-        </Pressable>
-
-        {/* Completed todo */}
-        {this.state.completedSectionExpanded &&
-          completedTodos.map((completedTodo) => (
-            <Todo
-              key={completedTodo.createDatetime}
-              todo={completedTodo}
-              toggleTodoStatus={this.props.toggleTodoStatus}
-              navigateEditScreen={this.props.navigateEditScreen}
-            />
-          ))}
+            {this.state.completedSectionExpanded &&
+              completedTodos.map((completedTodo) => (
+                <Todo
+                  key={completedTodo.createDatetime}
+                  todo={completedTodo}
+                  toggleTodoStatus={this.props.toggleTodoStatus}
+                  navigateEditScreen={this.props.navigateEditScreen}
+                />
+              ))}
+          </>
+        )}
       </>
     );
   }

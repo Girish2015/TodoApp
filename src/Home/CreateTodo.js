@@ -151,8 +151,8 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   titleInput: {
-    fontSize: 18,
-    fontFamily: fonts.OpenSansSemiBold,
+    fontSize: 25,
+    fontFamily: fonts.OpenSansRegular,
     marginHorizontal: 40,
   },
   todoDetails: {
