@@ -1,5 +1,12 @@
 import * as React from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+} from 'react-native';
 import colors from '../colors';
 import fonts from '../fonts';
 import images from '../images';
@@ -26,7 +33,7 @@ export default class TaskList extends React.Component {
     });
 
     return (
-      <>
+      <ScrollView>
         <View style={styles.headingContainer}>
           <Text style={styles.heading}>{list.title}</Text>
           <View style={styles.iconContainer}>
@@ -84,7 +91,7 @@ export default class TaskList extends React.Component {
               ))}
           </>
         )}
-      </>
+      </ScrollView>
     );
   }
 }
