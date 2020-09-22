@@ -65,11 +65,14 @@ export default class CreateTodo extends React.Component {
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.headerContainer}>
-          <Pressable onPress={() => this.props.navigation.goBack()}>
+          <Pressable
+            hitSlop={10}
+            onPress={() => this.props.navigation.goBack()}>
             <Image source={images.androidBack} style={styles.androidBack} />
           </Pressable>
           <View style={styles.headerRightContainer}>
             <Pressable
+              hitSlop={10}
               onPress={this.checkmarkTouch}
               style={styles.rightCheckmarkContainer}>
               <Image

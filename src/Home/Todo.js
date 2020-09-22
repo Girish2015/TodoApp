@@ -23,7 +23,9 @@ export default class Todo extends React.Component {
   renderCheckbox = (todo) => {
     if (todo.completed)
       return (
-        <Pressable onPress={() => this.props.toggleTodoStatus(todo)}>
+        <Pressable
+          hitSlop={10}
+          onPress={() => this.props.toggleTodoStatus(todo)}>
           <Image style={styles.checkmark} source={images.rightCheckmark} />
         </Pressable>
       );
@@ -39,7 +41,13 @@ export default class Todo extends React.Component {
         />
       );
 
-    return <Pressable style={styles.checkbox} onPress={this.onCheckboxPress} />;
+    return (
+      <Pressable
+        hitSlop={10}
+        style={styles.checkbox}
+        onPress={this.onCheckboxPress}
+      />
+    );
   };
 
   render() {

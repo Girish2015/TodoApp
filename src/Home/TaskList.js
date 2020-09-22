@@ -30,11 +30,11 @@ export default class TaskList extends React.Component {
         <View style={styles.headingContainer}>
           <Text style={styles.heading}>{list.title}</Text>
           <View style={styles.iconContainer}>
-            <Pressable onPress={this.props.navigateCreateScreen}>
+            <Pressable hitSlop={10} onPress={this.props.navigateCreateScreen}>
               <Image source={images.plus} style={styles.plusIcon} />
             </Pressable>
 
-            <Pressable onPress={this.props.navigateCreateScreen}>
+            <Pressable hitSlop={10} onPress={this.props.navigateCreateScreen}>
               <Image source={images.search} style={styles.searchIcon} />
             </Pressable>
           </View>
