@@ -1,0 +1,111 @@
+import * as React from 'react';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import colors from '../colors';
+import fonts from '../fonts';
+import images from '../images';
+import Todo from './Todo';
+
+export default class TaskList extends React.Component {
+  state = {
+    completedSectionExpanded: false,
+  };
+
+  toggleCompletedSection = () => {
+    this.setState({
+      completedSectionExpanded: !this.state.completedSectionExpanded,
+    });
+  };
+
+  render() {
+    const list = this.props.list;
+    const activeTodos = [];
+    const completedTodos = [];
+    list.todos.forEach((todo) => {
+      if (todo.completed) completedTodos.push(todo);
+      else activeTodos.push(todo);
+    });
+
+    return (
+      <>
+        <View style={styles.headingContainer}>
+          <Text style={styles.heading}>{list.title}</Text>
+        </View>
+
+        {/* Active todo */}
+        {activeTodos.map((activeTodo) => (
+          <Todo
+            key={activeTodo.id}
+            todo={activeTodo}
+            toggleTodoStatus={this.props.toggleTodoStatus}
+          />
+        ))}
+
+        <View style={styles.seperator} />
+
+        <Pressable
+          android_ripple={{color: colors.seperator}}
+          style={styles.completedTextContainer}
+          onPress={this.toggleCompletedSection}>
+          <Text style={styles.completedText}>
+            Completed ({completedTodos.length})
+          </Text>
+          <View>
+            <Image
+              source={
+                this.state.completedSectionExpanded
+                  ? images.arrowUp
+                  : images.arrowDown
+              }
+              style={styles.arrow}
+            />
+          </View>
+        </Pressable>
+
+        {/* Completed todo */}
+        {this.state.completedSectionExpanded &&
+          completedTodos.map((completedTodo) => (
+            <Todo
+              key={completedTodo.id}
+              todo={completedTodo}
+              toggleTodoStatus={this.props.toggleTodoStatus}
+            />
+          ))}
+      </>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  headingContainer: {
+    marginLeft: 60,
+    marginTop: 40,
+    marginBottom: 20,
+  },
+  heading: {
+    fontSize: 30,
+    fontFamily: fonts.OpenSansSemiBold,
+  },
+  completedTextContainer: {
+    paddingLeft: 60,
+    paddingRight: 40,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 15,
+  },
+  completedText: {
+    fontSize: 18,
+    fontFamily: fonts.OpenSansSemiBold,
+  },
+  seperator: {
+    borderTopWidth: 1,
+    borderTopColor: colors.seperator,
+    marginTop: 40,
+  },
+  arrow: {
+    width: 17,
+    height: 17,
+    tintColor: colors.lightGray,
+    marginBottom: 5,
+  },
+});
