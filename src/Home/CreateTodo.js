@@ -14,7 +14,32 @@ import images from '../images';
 const numberOfLines = 9;
 
 export default class CreateTodo extends React.Component {
-  state = {};
+  constructor(props) {
+    super(props);
+
+    const {todo} = props.route.params;
+    if (todo)
+      this.state = {
+        editMode: true,
+        todo,
+        title: todo.title,
+        details: todo.details,
+      };
+    else this.state = {};
+  }
+
+  checkmarkTouch = () => {
+    if (this.state.editMode) this.editTodo();
+    else this.addNewTodo();
+  };
+
+  editTodo = () => {
+    const {todo, title, details} = this.state;
+    const {editTodo} = this.props.route.params;
+
+    editTodo(todo.id, title, details);
+    this.props.navigation.goBack();
+  };
 
   addNewTodo = () => {
     const {title, details} = this.state;
@@ -45,14 +70,16 @@ export default class CreateTodo extends React.Component {
           </Pressable>
           <View style={styles.headerRightContainer}>
             <Pressable
-              onPress={this.addNewTodo}
+              onPress={this.checkmarkTouch}
               style={styles.rightCheckmarkContainer}>
               <Image
                 source={images.rightCheckmark}
                 style={styles.rightCheckmark}
               />
             </Pressable>
-            <Image source={images.delete} style={styles.delete} />
+            {this.state.editMode && (
+              <Image source={images.delete} style={styles.delete} />
+            )}
           </View>
         </View>
 
@@ -63,6 +90,7 @@ export default class CreateTodo extends React.Component {
             onChangeText={(title) => this.setState({title})}
             style={styles.titleInput}
             autoFocus={true}
+            defaultValue={this.state.title}
           />
           <View style={styles.todoDetails}>
             <View style={styles.detailsInputRightLine} />
@@ -75,7 +103,7 @@ export default class CreateTodo extends React.Component {
               style={styles.detailsInput}
               multiline={true}
               numberOfLines={10}
-              defaultValue={' '}
+              defaultValue={this.state.details || ' '}
             />
           </View>
         </View>
@@ -101,7 +129,6 @@ const styles = StyleSheet.create({
     tintColor: colors.lightGray,
   },
   rightCheckmarkContainer: {
-    marginRight: 30,
     marginTop: 3,
   },
   rightCheckmark: {
@@ -113,6 +140,7 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     tintColor: colors.lightGray,
+    marginLeft: 30,
   },
   headerRightContainer: {
     flexDirection: 'row',

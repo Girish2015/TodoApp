@@ -46,6 +46,7 @@ export default class TaskList extends React.Component {
             key={activeTodo.createDatetime}
             todo={activeTodo}
             toggleTodoStatus={this.props.toggleTodoStatus}
+            navigateEditScreen={this.props.navigateEditScreen}
           />
         ))}
 
@@ -77,6 +78,7 @@ export default class TaskList extends React.Component {
               key={completedTodo.createDatetime}
               todo={completedTodo}
               toggleTodoStatus={this.props.toggleTodoStatus}
+              navigateEditScreen={this.props.navigateEditScreen}
             />
           ))}
       </>

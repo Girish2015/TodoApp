@@ -16,6 +16,10 @@ export default class Todo extends React.Component {
     });
   };
 
+  navigateEditScreen = () => {
+    this.props.navigateEditScreen(this.props.todo);
+  };
+
   renderCheckbox = (todo) => {
     if (todo.completed)
       return (
@@ -41,22 +45,22 @@ export default class Todo extends React.Component {
   render() {
     const todo = this.props.todo;
     return (
-      <View style={styles.container}>
+      <Pressable style={styles.container} onPress={this.navigateEditScreen}>
         <View style={styles.checkboxContainer}>
           {this.renderCheckbox(todo)}
         </View>
         <View style={styles.textContainer}>
           <Text style={styles.todoTitle}>{todo.title}</Text>
-          {todo.details && (
+          {todo.details ? (
             <Text
               style={styles.todoDetails}
               numberOfLines={2}
               ellipsizeMode={'tail'}>
               {todo.details}
             </Text>
-          )}
+          ) : null}
         </View>
-      </View>
+      </Pressable>
     );
   }
 }
@@ -65,7 +69,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 10,
+    marginVertical: 8,
   },
   checkboxContainer: {
     width: 60,
@@ -104,6 +108,6 @@ const styles = StyleSheet.create({
   checkmark: {
     width: 20,
     height: 14,
-    tintColor: colors.lightGray,
+    tintColor: colors.primary,
   },
 });

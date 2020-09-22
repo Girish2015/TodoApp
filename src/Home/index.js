@@ -3,7 +3,7 @@ import moment from 'moment';
 import * as React from 'react';
 import {View} from 'react-native';
 import {connect} from 'react-redux';
-import {addNewTodo, toggleTodoStatus} from '../Redux/appState';
+import {addNewTodo, toggleTodoStatus, editTodo} from '../Redux/appState';
 import TaskList from './TaskList';
 
 class Home extends React.Component {
@@ -13,8 +13,19 @@ class Home extends React.Component {
     });
   };
 
+  navigateEditScreen = (todo) => {
+    this.props.navigation.navigate('CreateTodo', {
+      todo,
+      editTodo: this.editTodo,
+    });
+  };
+
   toggleTodoStatus = (todo) => {
     this.props.toggleTodoStatus(todo.id);
+  };
+
+  editTodo = (id, title, details) => {
+    this.props.editTodo(id, title, details);
   };
 
   addNewTodo = (title, details) => {
@@ -36,6 +47,7 @@ class Home extends React.Component {
           list={this.props.todoData}
           toggleTodoStatus={this.toggleTodoStatus}
           navigateCreateScreen={this.navigateCreateScreen}
+          navigateEditScreen={this.navigateEditScreen}
         />
       </View>
     );
@@ -48,4 +60,8 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {addNewTodo, toggleTodoStatus})(Home);
+export default connect(mapStateToProps, {
+  addNewTodo,
+  toggleTodoStatus,
+  editTodo,
+})(Home);

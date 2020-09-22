@@ -1,6 +1,7 @@
 import moment from 'moment';
 
 const ADD_NEW_TODO = 'ADD_NEW_TODO';
+const EDIT_TODO = 'EDIT_TODO';
 const TOGGLE_TODO_STATUS = 'TOGGLE_TODO_STATUS';
 
 export const initialState = {
@@ -8,8 +9,9 @@ export const initialState = {
   todos: [
     {
       id: moment().toISOString(),
-      title: 'You first todo',
-      details: 'This is your fist sample todo',
+      title: 'You first task',
+      details:
+        'This is a sample todo. Create new todos using the plus icon on the top. 😀',
       completed: false,
       createDatetime: moment().toISOString(),
     },
@@ -25,6 +27,15 @@ export function addNewTodo(todo) {
   };
 }
 
+export function editTodo(id, title, details) {
+  return (dispatch) => {
+    dispatch({
+      type: EDIT_TODO,
+      payload: {id, title, details},
+    });
+  };
+}
+
 export function toggleTodoStatus(todoID) {
   return (dispatch) => {
     dispatch({
@@ -35,6 +46,9 @@ export function toggleTodoStatus(todoID) {
 }
 
 export default function AppStateReducer(state = initialState, action) {
+  const todos = state.todos;
+  let newTodos = [];
+
   switch (action.type) {
     case ADD_NEW_TODO:
       return Object.assign({}, state, {
@@ -42,10 +56,19 @@ export default function AppStateReducer(state = initialState, action) {
         todos: [action.payload, ...state.todos],
       });
 
+    case EDIT_TODO:
+      const {id, title, details} = action.payload;
+      newTodos = todos.map((todo) =>
+        todo.id === id ? {...todo, title, details} : todo,
+      );
+      return Object.assign({}, state, {
+        ...state,
+        todos: newTodos,
+      });
+
     case TOGGLE_TODO_STATUS:
       const todoID = action.payload;
-      const todos = state.todos;
-      const newTodos = todos.map((todo) =>
+      newTodos = todos.map((todo) =>
         todo.id === todoID ? {...todo, completed: !todo.completed} : todo,
       );
       return Object.assign({}, state, {
