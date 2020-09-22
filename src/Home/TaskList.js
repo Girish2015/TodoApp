@@ -30,11 +30,11 @@ export default class TaskList extends React.Component {
         <View style={styles.headingContainer}>
           <Text style={styles.heading}>{list.title}</Text>
           <View style={styles.iconContainer}>
-            <Pressable onPress={this.props.createTodo}>
+            <Pressable onPress={this.props.navigateCreateScreen}>
               <Image source={images.plus} style={styles.plusIcon} />
             </Pressable>
 
-            <Pressable onPress={this.props.createTodo}>
+            <Pressable onPress={this.props.navigateCreateScreen}>
               <Image source={images.search} style={styles.searchIcon} />
             </Pressable>
           </View>
@@ -43,7 +43,7 @@ export default class TaskList extends React.Component {
         {/* Active todo */}
         {activeTodos.map((activeTodo) => (
           <Todo
-            key={activeTodo.id}
+            key={activeTodo.createDatetime}
             todo={activeTodo}
             toggleTodoStatus={this.props.toggleTodoStatus}
           />
@@ -74,7 +74,7 @@ export default class TaskList extends React.Component {
         {this.state.completedSectionExpanded &&
           completedTodos.map((completedTodo) => (
             <Todo
-              key={completedTodo.id}
+              key={completedTodo.createDatetime}
               todo={completedTodo}
               toggleTodoStatus={this.props.toggleTodoStatus}
             />

@@ -1,5 +1,12 @@
 import * as React from 'react';
-import {Image, Pressable, StyleSheet, TextInput, View} from 'react-native';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  TextInput,
+  ToastAndroid,
+  View,
+} from 'react-native';
 import colors from '../colors';
 import fonts from '../fonts';
 import images from '../images';
@@ -7,6 +14,19 @@ import images from '../images';
 const numberOfLines = 9;
 
 export default class CreateTodo extends React.Component {
+  state = {};
+
+  addNewTodo = () => {
+    const {title, details} = this.state;
+    if (!title) {
+      ToastAndroid.show('Enter title', ToastAndroid.LONG);
+      return;
+    }
+    const {addNewTodo} = this.props.route.params;
+    addNewTodo(title, details);
+    this.props.navigation.goBack();
+  };
+
   renderLines = () => {
     let lines = [];
     for (let i = 0; i < numberOfLines; ++i) {
@@ -25,7 +45,7 @@ export default class CreateTodo extends React.Component {
           </Pressable>
           <View style={styles.headerRightContainer}>
             <Pressable
-              onPress={() => {}}
+              onPress={this.addNewTodo}
               style={styles.rightCheckmarkContainer}>
               <Image
                 source={images.rightCheckmark}
@@ -115,7 +135,7 @@ const styles = StyleSheet.create({
   },
   detailsInput: {
     fontSize: 18,
-    // fontFamily: fonts.OpenSansRegular,
+    fontFamily: fonts.OpenSansRegular,
     position: 'absolute',
     top: 0,
     left: 30,

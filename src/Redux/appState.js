@@ -1,13 +1,15 @@
+import moment from 'moment';
+
 const ADD_NEW_TODO = 'ADD_NEW_TODO';
 
 export const initialState = {
   title: 'My Todos',
   todos: [
     {
-      id: 1,
       title: 'You first todo',
       details: 'This is your fist sample todo',
       completed: false,
+      createDatetime: moment().toISOString(),
     },
   ],
 };
@@ -26,7 +28,7 @@ export default function AppStateReducer(state = initialState, action) {
     case ADD_NEW_TODO:
       return Object.assign({}, state, {
         ...state,
-        todos: [...state.todos, action.payload],
+        todos: [action.payload, ...state.todos],
       });
 
     default:

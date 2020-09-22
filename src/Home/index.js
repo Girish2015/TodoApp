@@ -1,9 +1,10 @@
+import _ from 'lodash';
+import moment from 'moment';
 import * as React from 'react';
 import {View} from 'react-native';
-import TaskList from './TaskList';
-import _ from 'lodash';
 import {connect} from 'react-redux';
 import {addNewTodo} from '../Redux/appState';
+import TaskList from './TaskList';
 
 class Home extends React.Component {
   toggleTodoStatus = (todo) => {
@@ -26,8 +27,21 @@ class Home extends React.Component {
     });
   };
 
-  createTodo = () => {
-    this.props.navigation.navigate('CreateTodo');
+  navigateCreateScreen = () => {
+    this.props.navigation.navigate('CreateTodo', {
+      addNewTodo: this.addNewTodo,
+    });
+  };
+
+  addNewTodo = (title, details) => {
+    let todo = {
+      title: title,
+      details: details,
+      completed: false,
+      createDatetime: moment().toISOString(),
+    };
+
+    this.props.addNewTodo(todo);
   };
 
   render() {
@@ -36,7 +50,7 @@ class Home extends React.Component {
         <TaskList
           list={this.props.todoData}
           toggleTodoStatus={this.toggleTodoStatus}
-          createTodo={this.createTodo}
+          navigateCreateScreen={this.navigateCreateScreen}
         />
       </View>
     );
