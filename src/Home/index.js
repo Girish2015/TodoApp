@@ -2,38 +2,12 @@ import * as React from 'react';
 import {View} from 'react-native';
 import TaskList from './TaskList';
 import _ from 'lodash';
+import {connect} from 'react-redux';
+import {addNewTodo} from '../Redux/appState';
 
-const testData = {
-  title: 'My Tasks',
-  todos: [
-    {
-      id: 1,
-      title: 'Finish the functionality',
-      details: `You will have to finish all the stuff`,
-      completed: false,
-    },
-    {
-      id: 2,
-      title: 'Finish the functionality today',
-      details: `You will have to finish all the functionality today so that rest of
-        the days can be spent of other features`,
-      completed: false,
-    },
-    {
-      id: 3,
-      title: 'Basic setup done',
-      completed: false,
-    },
-  ],
-};
-
-export default class Home extends React.Component {
-  state = {
-    todoData: testData,
-  };
-
+class Home extends React.Component {
   toggleTodoStatus = (todo) => {
-    const todoData = this.state.todoData;
+    const todoData = this.props.todoData;
     const newTodoList = _.map(todoData.todos, (item) => {
       if (todo.id === item.id)
         return {
@@ -60,7 +34,7 @@ export default class Home extends React.Component {
     return (
       <View style={{flex: 1}}>
         <TaskList
-          list={this.state.todoData}
+          list={this.props.todoData}
           toggleTodoStatus={this.toggleTodoStatus}
           createTodo={this.createTodo}
         />
@@ -68,3 +42,11 @@ export default class Home extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    todoData: state.app,
+  };
+}
+
+export default connect(mapStateToProps, {addNewTodo})(Home);
