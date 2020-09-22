@@ -3,38 +3,23 @@ import moment from 'moment';
 import * as React from 'react';
 import {View} from 'react-native';
 import {connect} from 'react-redux';
-import {addNewTodo} from '../Redux/appState';
+import {addNewTodo, toggleTodoStatus} from '../Redux/appState';
 import TaskList from './TaskList';
 
 class Home extends React.Component {
-  toggleTodoStatus = (todo) => {
-    const todoData = this.props.todoData;
-    const newTodoList = _.map(todoData.todos, (item) => {
-      if (todo.id === item.id)
-        return {
-          ...todo,
-          completed: !todo.completed,
-        };
-
-      return item;
-    });
-
-    this.setState({
-      todoData: {
-        ...todoData,
-        todos: newTodoList,
-      },
-    });
-  };
-
   navigateCreateScreen = () => {
     this.props.navigation.navigate('CreateTodo', {
       addNewTodo: this.addNewTodo,
     });
   };
 
+  toggleTodoStatus = (todo) => {
+    this.props.toggleTodoStatus(todo.id);
+  };
+
   addNewTodo = (title, details) => {
     let todo = {
+      id: moment().toISOString(),
       title: title,
       details: details,
       completed: false,
@@ -63,4 +48,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {addNewTodo})(Home);
+export default connect(mapStateToProps, {addNewTodo, toggleTodoStatus})(Home);
