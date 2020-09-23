@@ -2,7 +2,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import * as React from 'react';
 import {StatusBar} from 'react-native';
 import 'react-native-gesture-handler';
-import RootStackNavigator from './src/Navigators/RootStackNavigator';
+import RootStackNavigator from './src/Navigators/rootStackNavigator';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {persistor, store} from './src/Redux/store';

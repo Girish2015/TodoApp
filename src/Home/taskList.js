@@ -11,7 +11,7 @@ import {
 import colors from '../colors';
 import fonts from '../fonts';
 import images from '../images';
-import Todo from './Todo';
+import Todo from './todo';
 
 export default class TaskList extends React.Component {
   state = {

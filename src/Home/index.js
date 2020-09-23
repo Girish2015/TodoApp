@@ -8,7 +8,7 @@ import {
   editTodo,
   toggleTodoStatus,
 } from '../Redux/appState';
-import TaskList from './TaskList';
+import TaskList from './taskList';
 
 class Home extends React.Component {
   navigateCreateScreen = () => {

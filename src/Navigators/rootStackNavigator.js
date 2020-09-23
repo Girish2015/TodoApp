@@ -1,7 +1,7 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import * as React from 'react';
 import Home from '../Home';
-import CreateTodo from '../Home/CreateTodo';
+import CreateTodo from '../Home/createTodo';
 
 const Stack = createStackNavigator();
 
