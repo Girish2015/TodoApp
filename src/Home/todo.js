@@ -58,7 +58,12 @@ export default class Todo extends React.Component {
           {this.renderCheckbox(todo)}
         </View>
         <View style={styles.textContainer}>
-          <Text style={styles.todoTitle}>{todo.title}</Text>
+          <Text
+            style={styles.todoTitle}
+            numberOfLines={1}
+            ellipsizeMode={'tail'}>
+            {todo.title}
+          </Text>
           {todo.details ? (
             <Text
               style={styles.todoDetails}

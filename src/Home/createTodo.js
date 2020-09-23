@@ -130,7 +130,8 @@ export default class CreateTodo extends React.Component {
               style={styles.detailsInput}
               multiline={true}
               numberOfLines={10}
-              defaultValue={this.state.details || ' '}
+              defaultValue={this.state.details}
+              maxLength={300}
             />
           </View>
         </View>
