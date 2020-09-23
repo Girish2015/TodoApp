@@ -89,8 +89,6 @@ const styles = StyleSheet.create({
     minHeight: 60,
     justifyContent: 'center',
     alignItems: 'center',
-    // alignSelf: 'flex-start',
-    // marginTop: 5,
   },
   checkbox: {
     backgroundColor: '#fff',
