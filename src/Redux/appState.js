@@ -11,7 +11,7 @@ export const initialState = {
   todos: [
     {
       id: moment().toISOString(),
-      title: 'You first task',
+      title: 'Your first task',
       details:
         'This is a sample todo. Create new todos using the plus icon on the top. 😀',
       completed: false,
