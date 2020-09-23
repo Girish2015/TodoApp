@@ -3,6 +3,7 @@ import {
   Alert,
   Image,
   Pressable,
+  ScrollView,
   StyleSheet,
   TextInput,
   ToastAndroid,
@@ -12,7 +13,7 @@ import colors from '../colors';
 import fonts from '../fonts';
 import images from '../images';
 
-const numberOfLines = 9;
+const numberOfLines = 100;
 
 export default class CreateTodo extends React.Component {
   constructor(props) {
@@ -121,18 +122,20 @@ export default class CreateTodo extends React.Component {
           />
           <View style={styles.todoDetails}>
             <View style={styles.detailsInputRightLine} />
-            <View style={styles.detailsInputLinesContainer}>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.scrollView}>
               {this.renderLines()}
-            </View>
-            <TextInput
-              placeholder={'Details'}
-              onChangeText={(details) => this.setState({details})}
-              style={styles.detailsInput}
-              multiline={true}
-              numberOfLines={10}
-              defaultValue={this.state.details}
-              maxLength={300}
-            />
+              <TextInput
+                placeholder={'Details'}
+                onChangeText={(details) => this.setState({details})}
+                style={styles.detailsInput}
+                multiline={true}
+                defaultValue={this.state.details}
+                scrollEnabled={false}
+              />
+            </ScrollView>
           </View>
         </View>
       </View>
@@ -197,7 +200,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 30,
-    width: '100%',
+    width: '90%',
     height: '100%',
     textAlign: 'left',
     textAlignVertical: 'top',
@@ -214,17 +217,15 @@ const styles = StyleSheet.create({
     top: 0,
     left: 20,
   },
-  detailsInputLinesContainer: {
-    position: 'absolute',
-    top: 3,
-    left: 0,
-    height: '100%',
-    width: '100%',
-  },
   detailsInputLines: {
     height: 36,
     width: '100%',
     borderBottomColor: colors.seperator,
     borderBottomWidth: 1,
+  },
+  scrollView: {
+    margin: 0,
+    padding: 0,
+    paddingTop: 1,
   },
 });
