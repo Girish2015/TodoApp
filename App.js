@@ -2,21 +2,21 @@ import {NavigationContainer} from '@react-navigation/native';
 import * as React from 'react';
 import {StatusBar} from 'react-native';
 import 'react-native-gesture-handler';
-import RootStackNavigator from './src/Navigators/rootStackNavigator';
 import {Provider} from 'react-redux';
-import {PersistGate} from 'redux-persist/integration/react';
-import {persistor, store} from './src/Redux/store';
+import RootStackNavigator from './src/Navigators/rootStackNavigator';
+import LoadPersistedStore from './src/CustomAsyncStorage/loadPersistedStore';
+import {store} from './src/Redux/store';
 
 const App = () => {
   return (
     <>
       <Provider store={store}>
-        <PersistGate persistor={persistor}>
+        <LoadPersistedStore store={store}>
           <NavigationContainer>
             <StatusBar backgroundColor="white" barStyle="dark-content" />
             <RootStackNavigator />
           </NavigationContainer>
-        </PersistGate>
+        </LoadPersistedStore>
       </Provider>
     </>
   );

@@ -1,5 +1,6 @@
 import moment from 'moment';
 
+const REFRESH_FROM_STORAGE = 'REFRESH_FROM_STORAGE';
 const ADD_NEW_TODO = 'ADD_NEW_TODO';
 const EDIT_TODO = 'EDIT_TODO';
 const TOGGLE_TODO_STATUS = 'TOGGLE_TODO_STATUS';
@@ -60,6 +61,11 @@ export default function AppStateReducer(state = initialState, action) {
   let newTodos = [];
 
   switch (action.type) {
+    case REFRESH_FROM_STORAGE:
+      return Object.assign({}, state, {
+        ...action.payload,
+      });
+
     case ADD_NEW_TODO:
       return Object.assign({}, state, {
         ...state,
